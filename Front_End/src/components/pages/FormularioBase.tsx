@@ -1,12 +1,46 @@
 import { useState } from "react";
+import { Form } from "react-router-dom";
 
 const FormularioBase = () => {
 
     const [Formulario, setFormulario] = useState({});
 
+
+    const serializarFormulario = (Formulario) => {
+
+        const formData = new FormData(Formulario);
+
+        const objetosDatos = {}
+
+        for (let [name, value] of formData) {
+
+            objetosDatos[name] = value;
+            
+        }
+
+        return objetosDatos;
+
+    }
+
     const obtenerDatos = (e) => {
-        e.prevetDefault();
-        alert("hola");
+
+        e.preventDefault();
+        
+        const datos = serializarFormulario(e.target);
+
+        setFormulario(datos);
+
+    }
+
+    const cambiado = ({target}) => {
+
+        const [name, value] = target;
+        setFormulario(
+            {
+                ...Formulario,[name]: value,
+            }
+        )
+
     }
 
 
@@ -39,7 +73,7 @@ const FormularioBase = () => {
                             </div>
                             <div className="col-span-full">
                                 <label className="text-sm font-medium text-gray-900 block mb-2">Contenido</label>
-                                <textarea id="contenido" name="contenido" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" placeholder="Detalles"></textarea>
+                                <textarea id="contenido" name="contenido" onChange={cambiado} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" placeholder="Detalles"></textarea>
                             </div>
                             <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-36 justify-center">
                                 <label className="flex flex-col items-center gap-2 cursor-pointer">
@@ -48,7 +82,7 @@ const FormularioBase = () => {
                                 </svg>
                                 <span className="text-gray-600 font-medium">Subir Imagen</span>
                                 </label>
-                                <input id="imagen" name="imagen" type="file" className="hidden" />
+                                <input id="imagen" name="imagen" type="file" className="hidden" onChange={cambiado}/>
                             </div>
                         </div>
 
