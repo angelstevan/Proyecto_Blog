@@ -1,49 +1,8 @@
-import { useState } from "react";
-import { Form } from "react-router-dom";
+import UseFormulario from '../../hooks/useFormulario';
 
 const FormularioBase = () => {
 
-    const [Formulario, setFormulario] = useState({});
-
-
-    const serializarFormulario = (Formulario) => {
-
-        const formData = new FormData(Formulario);
-
-        const objetosDatos = {}
-
-        for (let [name, value] of formData) {
-
-            objetosDatos[name] = value;
-            
-        }
-
-        return objetosDatos;
-
-    }
-
-    const obtenerDatos = (e) => {
-
-        e.preventDefault();
-        
-        const datos = serializarFormulario(e.target);
-
-        setFormulario(datos);
-
-    }
-
-    const cambiado = ({target}) => {
-
-        const [name, value] = target;
-        setFormulario(
-            {
-                ...Formulario,[name]: value,
-            }
-        )
-
-    }
-
-
+    const {Formulario, obtenerDatos, cambiado} = UseFormulario();
 
     //render del componente
     return ( 
